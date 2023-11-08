@@ -23,12 +23,12 @@ public class PurchaseTransactionController {
     @Autowired
     private PurchaseTransactionService service;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<PurchaseTransaction> create(@Valid @RequestBody PurchaseTransactionStoreDTO dto){
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/retrieve/{id}/{currency}")
+    @GetMapping("/{id}/{currency}")
     public ResponseEntity<PurchaseTransaction> retrieve(@PathVariable() Integer id, @PathVariable() String currency){
         return new ResponseEntity<>(service.retrieve(id, currency), HttpStatus.OK);
     }

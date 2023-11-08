@@ -1,6 +1,7 @@
 package com.wex.service;
 
 import com.wex.dto.FiscaldataRequestDTO;
+import com.wex.dto.FiscaldataRequestDataDTO;
 import com.wex.dto.PurchaseTransactionRetrieveDTO;
 import com.wex.entity.PurchaseTransaction;
 import com.wex.repository.PurchaseTransactionRepository;
@@ -16,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,18 +44,24 @@ public class PurchaseTransactionServiceTest {
     }
 
     @Test
-    public void testPurchaseTransactionFoundSuccessfully(){
+     void testPurchaseTransactionFoundSuccessfully(){
         PurchaseTransaction transaction = new PurchaseTransaction("description", 2.95, LocalDateTime.now());
-        Mockito.when(repository.findById(anyInt())).thenReturn(Optional.of(transaction));
+        FiscaldataRequestDataDTO reqData = new FiscaldataRequestDataDTO();
+        reqData.setExchange_rate("5.03");
+        FiscaldataRequestDTO dto = new FiscaldataRequestDTO();
+        dto.setData(List.of(reqData));
 
-        PurchaseTransactionRetrieveDTO retrieveDTO = service.retrieve(1, "test");
+        Mockito.when(repository.findById(anyInt())).thenReturn(Optional.of(transaction));
+        Mockito.when(request.getExchangeRate(anyString(),anyString())).thenReturn(dto);
+
+        PurchaseTransactionRetrieveDTO retrieveDTO = service.retrieve(1, "Real");
 
         assertEquals(transaction.getDescription(), retrieveDTO.getDescription());
         assertEquals(transaction.getPurchaseAmount(), retrieveDTO.getPurchaseAmount());
 
     }
     @Test
-    public void testeWhenPurchaseNotFound(){
+     void testeWhenPurchaseNotFound(){
 
         Mockito.when(repository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -68,7 +76,7 @@ public class PurchaseTransactionServiceTest {
     }
 
     @Test
-    public void testeWhenNoExchangeRateIsNull(){
+     void testeWhenNoExchangeRateIsNull(){
 
         PurchaseTransaction transaction = new PurchaseTransaction("description", 2.95, LocalDateTime.now());
         Mockito.when(repository.findById(anyInt())).thenReturn(Optional.of(transaction));
@@ -85,7 +93,7 @@ public class PurchaseTransactionServiceTest {
     }
 
     @Test
-    public void testeWhenNoExchangeRateIsEmpty(){
+     void testeWhenNoExchangeRateIsEmpty(){
 
         PurchaseTransaction transaction = new PurchaseTransaction("description", 2.95, LocalDateTime.now());
 

@@ -51,12 +51,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
-    public void testCreatePurchaseTransaction() throws Exception {
+     void testCreatePurchaseTransaction() throws Exception {
         PurchaseTransactionStoreDTO dto = new PurchaseTransactionStoreDTO();
         dto.setDescription("Teste mock");
         dto.setPurchaseAmount(100.00);
 
-        ResultActions resultActions = mockMvc.perform(post("/api/v1/purchase-transaction/create")
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/purchase-transaction")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
@@ -64,10 +64,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
-    public void testCreatePurchaseTransactionFail() throws Exception {
+     void testCreatePurchaseTransactionFail() throws Exception {
         PurchaseTransactionStoreDTO dto = new PurchaseTransactionStoreDTO();
 
-        ResultActions resultActions = mockMvc.perform(post("/api/v1/purchase-transaction/create")
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/purchase-transaction")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
@@ -75,8 +75,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
-    public void testRetrievePurchaseTransaction() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/purchase-transaction/retrieve/{id}/{currency}", 1, "Real"))
+     void testRetrievePurchaseTransaction() throws Exception {
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/purchase-transaction/{id}/{currency}", 1, "Real"))
                 .andExpect(status().isOk());
 
     }
