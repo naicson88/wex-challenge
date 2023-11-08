@@ -6,7 +6,7 @@ Rest API for managing Purchase Transactions
 
 # Endpoints
 ## Create Purchase Transaction
-     http://localhost:8080/api/v1/purchase-transaction
+     (POST) http://localhost:8080/api/v1/purchase-transaction
       
         {
             "description": "Transaction description",
@@ -24,7 +24,7 @@ Rest API for managing Purchase Transactions
             "convertedAmount": 116143.5
         }
 ## Retrieve Purchase Transaction
-     http://localhost:8080/api/v1/purchase-transaction/{id}/{currency}
+    (GET) http://localhost:8080/api/v1/purchase-transaction/{id}/{currency}
 
 
 # Technologies used
